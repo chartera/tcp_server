@@ -59,7 +59,6 @@ proc processMessages(server: Server, client: Client) {.async.} =
         asyncCheck asyncnet.send(client.socket, msg)
       else:
         publish(msg.cmd, client, msg)
-    asyncdispatch.poll()
     
 proc loop(server: Server, port: int) {.async.} =
   asyncnet.bindAddr(server.socket, Port(port))
@@ -95,3 +94,4 @@ proc start_server*(port: int): void =
   wrapSocket(ctx, server.socket)
   subscribe("ping", echo_ping)
   asyncdispatch.asyncCheck loop(server, port)
+  
